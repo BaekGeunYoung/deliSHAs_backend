@@ -9,9 +9,9 @@ data class Restaurant (
         @Column(name="name")
         var name: String,
         @Column(name="breakfast")
-        var breakfast: String,
+        var breakfast: List<Menu>,
         @Column(name="lunch")
-        var lunch: String,
+        var lunch: List<Menu>,
         @Column(name="dinner")
-        var dinner: String
+        var dinner: List<Menu>
 ): EntityAuditing(), Serializable
