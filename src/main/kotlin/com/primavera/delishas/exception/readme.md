@@ -1,1 +1,0 @@
-custom exception들을 모아놓은 디렉토리
