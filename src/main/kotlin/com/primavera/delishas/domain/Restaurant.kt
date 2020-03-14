@@ -1,6 +1,7 @@
 package com.primavera.delishas.domain
 
 import java.io.Serializable
+import java.time.LocalDate
 import javax.persistence.*
 
 @Entity
@@ -8,10 +9,12 @@ import javax.persistence.*
 data class Restaurant (
         @Column(name="name")
         var name: String,
-        @Column(name="breakfast")
+        @Column(name="date")
+        var date: LocalDate,
+        @ElementCollection
         var breakfast: List<Menu>,
-        @Column(name="lunch")
+        @ElementCollection
         var lunch: List<Menu>,
-        @Column(name="dinner")
+        @ElementCollection
         var dinner: List<Menu>
 ): EntityAuditing(), Serializable
