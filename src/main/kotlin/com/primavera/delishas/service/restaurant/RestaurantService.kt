@@ -1,4 +1,4 @@
-package com.primavera.delishas.service.menu
+package com.primavera.delishas.service.restaurant
 
 import com.primavera.delishas.domain.Restaurant
 

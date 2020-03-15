@@ -1,4 +1,4 @@
-package com.primavera.delishas.service.menu
+package com.primavera.delishas.service.restaurant
 
 import com.primavera.delishas.domain.Restaurant
 import com.primavera.delishas.exception.RestaurantNotFoundException
@@ -18,13 +18,20 @@ class RestaurantServiceImpl (
 
     @Cacheable(value = ["menus"])
     override fun getAll(): List<Restaurant> {
-        return restaurantRepository.findAll()
+        val restaurants = restaurantRepository.findAll()
+        if(restaurants.isEmpty()) throw RestaurantNotFoundException("can not find any menu")
+
+        // CachePut
+        for(restaurant in restaurants) create(restaurant)
+        return restaurants
     }
 
     override fun getById(id: Long): Restaurant {
         val restaurant = restaurantRepository.findById(id)
-        if(!restaurant.isPresent)
-            throw RestaurantNotFoundException("can not find menu : $id")
+        if(!restaurant.isPresent) throw RestaurantNotFoundException("can not find menu : $id")
+
+        // CachePut
+        create(restaurant.get())
         return restaurant.get()
     }
 
@@ -32,6 +39,9 @@ class RestaurantServiceImpl (
     override fun getByName(name: String): Restaurant {
         val restaurant = restaurantRepository.findByName(name)
         restaurant?: throw RestaurantNotFoundException("can not find menu : $name")
+
+        // CachePut
+        create(restaurant)
         return restaurant
     }
 
