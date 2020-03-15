@@ -15,8 +15,8 @@ data class FakeMenu(
         @Column(name = "msg")
         var msg: String?,
 
-        @Column(name = "time")
-        var time: Time,
+        @Column(name = "meal_time")
+        var mealTime: MealTime,
 
         @Column(name = "date")
         var date: LocalDate,
@@ -26,7 +26,7 @@ data class FakeMenu(
         var restaurant: FakeRestaurant
 ): EntityAuditing()
 
-enum class Time {
+enum class MealTime {
     BREAKFAST,
     LUNCH,
     DINNER
