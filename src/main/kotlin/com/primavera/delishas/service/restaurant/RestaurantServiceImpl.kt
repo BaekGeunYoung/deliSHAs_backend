@@ -1,6 +1,5 @@
 package com.primavera.delishas.service.restaurant
 
-import com.primavera.delishas.domain.Restaurant
 import com.primavera.delishas.dto.RestaurantDto
 import com.primavera.delishas.repostiory.MenuRepository
 import com.primavera.delishas.repostiory.RestaurantRepository
@@ -15,7 +14,6 @@ class RestaurantServiceImpl(
         @Autowired private val menuRepository: MenuRepository
 ): RestaurantService {
 
-    // 테스트용 메소드
     @CachePut(value = ["restaurants"], key = "restaurants")
     override fun createRestaurants(restaurantsDto: MutableList<RestaurantDto>) {
         for(restaurantDto in restaurantsDto){

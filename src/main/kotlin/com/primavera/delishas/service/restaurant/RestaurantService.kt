@@ -4,5 +4,5 @@ import com.primavera.delishas.dto.RestaurantDto
 
 interface RestaurantService {
     fun createRestaurants(restaurantsDto: MutableList<RestaurantDto>)
-    fun getRestaurants() : List<RestaurantDto>
+    fun getRestaurants() : MutableList<RestaurantDto>
 }
