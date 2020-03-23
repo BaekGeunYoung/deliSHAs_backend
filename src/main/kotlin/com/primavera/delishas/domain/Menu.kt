@@ -17,14 +17,17 @@ data class Menu(
         var msg: String?,
 
         @Column(name = "meal_time")
+        @Enumerated(EnumType.STRING)
         var mealTime: MealTime,
 
         @Column(name = "date")
         var date: LocalDate,
 
+        @Column(name = "is_valid")
+        var isValid: Boolean,
+
         @ManyToOne
         @JoinColumn(name = "restaurant_id")
-        //@JsonIgnore
         var restaurant: Restaurant
 ): EntityAuditing(), Serializable
 
