@@ -22,17 +22,27 @@ class RestaurantServiceImpl(
         }
     }
 
+    // cache method
     @Cacheable(value = ["restaurants"])
     override fun getRestaurants(): MutableList<RestaurantDto> {
+        return refreshRestaurants()
+    }
+
+    // no cache method for crawler
+    override fun refreshRestaurants(): MutableList<RestaurantDto>{
         val restaurantsRes: MutableList<RestaurantDto> = mutableListOf()
+
+        // 1. get restaurants
         val restaurants = restaurantRepository.findAll()
 
+        // 2. set restaurant dto with menus
         for(restaurant in restaurants){
             val menus = menuRepository.findByRestaurant(restaurant)
             restaurantsRes.add(RestaurantDto.of(restaurant, menus))
         }
 
+        // 3. refresh cache
+        createRestaurants(restaurantsRes)
         return restaurantsRes
     }
-
 }
