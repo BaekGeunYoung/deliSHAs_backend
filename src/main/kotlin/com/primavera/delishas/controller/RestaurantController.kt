@@ -1,5 +1,6 @@
 package com.primavera.delishas.controller
 
+import com.primavera.delishas.dto.RestaurantDto
 import com.primavera.delishas.service.restaurant.RestaurantService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
@@ -10,5 +11,9 @@ import org.springframework.web.bind.annotation.*
 class RestaurantController (
         @Autowired val restaurantService: RestaurantService
 ){
-    // GetRestaurants
+    @GetMapping("/")
+    fun getRestaurants(): ResponseEntity<MutableList<RestaurantDto>>{
+        val restaurants = restaurantService.getRestaurants()
+        return ResponseEntity.ok().body(restaurants)
+    }
 }
