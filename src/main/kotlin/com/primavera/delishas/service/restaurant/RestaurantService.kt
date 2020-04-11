@@ -1,9 +1,10 @@
 package com.primavera.delishas.service.restaurant
 
+import com.primavera.delishas.domain.Restaurant
 import com.primavera.delishas.dto.RestaurantDto
+import java.time.LocalDate
 
 interface RestaurantService {
-    fun createRestaurants(restaurantsDto: MutableList<RestaurantDto>)
-    fun getRestaurants() : MutableList<RestaurantDto>
-    fun refreshRestaurants(): MutableList<RestaurantDto>
+    fun getRestaurants(localDate: LocalDate) : MutableList<Restaurant>
+    fun refreshRestaurants(localDate: LocalDate): MutableList<Restaurant>
 }

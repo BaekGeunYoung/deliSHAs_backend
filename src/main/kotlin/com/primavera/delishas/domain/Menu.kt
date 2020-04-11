@@ -1,5 +1,6 @@
 package com.primavera.delishas.domain
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import java.io.Serializable
 import java.time.LocalDate
 import javax.persistence.*
@@ -7,6 +8,11 @@ import javax.persistence.*
 @Entity
 @Table(name = "menu")
 data class Menu(
+        @Id
+        @GeneratedValue(strategy=GenerationType.IDENTITY)
+        @JsonIgnore
+        var id: Long,
+
         @Column(name = "name")
         var name: String?,
 
@@ -26,8 +32,9 @@ data class Menu(
         @Column(name = "is_valid")
         var isValid: Boolean,
 
-        @ManyToOne
+        @ManyToOne(fetch=FetchType.LAZY)
         @JoinColumn(name = "restaurant_id")
+        @JsonIgnore
         var restaurant: Restaurant
 ): EntityAuditing(), Serializable
 

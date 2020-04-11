@@ -1,12 +1,15 @@
 package com.primavera.delishas.service.restaurant
 
+import com.primavera.delishas.domain.Restaurant
 import com.primavera.delishas.dto.RestaurantDto
+import com.primavera.delishas.exception.RestaurantNotFoundException
 import com.primavera.delishas.repostiory.MenuRepository
 import com.primavera.delishas.repostiory.RestaurantRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cache.annotation.CachePut
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 
 @Service
 class RestaurantServiceImpl(
@@ -14,35 +17,31 @@ class RestaurantServiceImpl(
         @Autowired private val menuRepository: MenuRepository
 ): RestaurantService {
 
-    @CachePut(value = ["restaurants"], key = "restaurants")
-    override fun createRestaurants(restaurantsDto: MutableList<RestaurantDto>) {
-        for(restaurantDto in restaurantsDto){
-            restaurantDto.menus.map { menu -> menuRepository.save(menu) }
-            restaurantRepository.save(RestaurantDto.toRestaurant(restaurantDto))
-        }
+    @CachePut(value = ["restaurants"], key = "#localDate")
+    fun createRestaurants(restaurants: MutableList<Restaurant>, localDate: String) {
+        restaurants.map { restaurant ->  restaurantRepository.save(restaurant) }
     }
 
     // cache method
-    @Cacheable(value = ["restaurants"])
-    override fun getRestaurants(): MutableList<RestaurantDto> {
-        return refreshRestaurants()
+    @Cacheable(value = ["restaurants"], key = "#localDate")
+    override fun getRestaurants(localDate: LocalDate): MutableList<Restaurant> {
+        return refreshRestaurants(localDate)
     }
 
     // no cache method for crawler
-    override fun refreshRestaurants(): MutableList<RestaurantDto>{
-        val restaurantsRes: MutableList<RestaurantDto> = mutableListOf()
+    override fun refreshRestaurants(localDate: LocalDate): MutableList<Restaurant>{
+
+        var testLocalDate = LocalDate.of(2020,4,1)
+
+        var res = restaurantRepository.findByDate(testLocalDate)
+        var resDto = res?.map { re -> RestaurantDto.of(re) }
 
         // 1. get restaurants
-        val restaurants = restaurantRepository.findAll()
+        val restaurants = restaurantRepository.findByMenusDate(testLocalDate)
+        restaurants ?: throw RestaurantNotFoundException("")
 
-        // 2. set restaurant dto with menus
-        for(restaurant in restaurants){
-            val menus = menuRepository.findByRestaurant(restaurant)
-            restaurantsRes.add(RestaurantDto.of(restaurant, menus))
-        }
-
-        // 3. refresh cache
-        createRestaurants(restaurantsRes)
-        return restaurantsRes
+        // 2. refresh cache
+        createRestaurants(restaurants, testLocalDate.toString())
+        return restaurants
     }
 }

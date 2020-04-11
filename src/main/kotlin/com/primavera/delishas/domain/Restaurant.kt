@@ -1,28 +1,26 @@
 package com.primavera.delishas.domain
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import java.io.Serializable
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Table
+import java.time.LocalDate
+import javax.persistence.*
 
 @Entity
 @Table(name = "restaurant")
 class Restaurant(
-        @Column(name = "name", unique = true)
-        var name: String,
+        @Id
+        @GeneratedValue(strategy=GenerationType.IDENTITY)
+        @JsonIgnore
+        var id: Long,
 
-        @Column(name = "place")
-        var place: String,
+        @Column(name = "date")
+        var date: LocalDate,
 
-        @Column(name = "contact")
-        var contact: String,
+        @OneToMany(mappedBy = "restaurant")
+        var menus: MutableList<Menu>,
 
-        @Column(name = "breakfast_time")
-        var breakfastTime: String,
+        @OneToOne
+        @JoinColumn(name = "restaurant_info_id")
+        var restaurantInfo: RestaurantInfo
 
-        @Column(name = "lunch_time")
-        var lunchTime: String,
-
-        @Column(name = "dinner_time")
-        var dinnerTime: String
 ): EntityAuditing(), Serializable
