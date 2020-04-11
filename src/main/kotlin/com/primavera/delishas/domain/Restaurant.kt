@@ -19,7 +19,7 @@ class Restaurant(
         @OneToMany(mappedBy = "restaurant")
         var menus: MutableList<Menu>,
 
-        @OneToOne
+        @ManyToOne
         @JoinColumn(name = "restaurant_info_id")
         var restaurantInfo: RestaurantInfo
 

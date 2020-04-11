@@ -1,6 +1,7 @@
 package com.primavera.delishas.domain
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import java.io.Serializable
 import javax.persistence.*
 
 @Entity
@@ -11,7 +12,7 @@ data class RestaurantInfo (
         @JsonIgnore
         var id: Long,
 
-        @Column(name = "name", unique = true)
+        @Column(name = "name", unique = true, length = 200)
         var name: String,
 
         @Column(name = "place")
@@ -34,4 +35,4 @@ data class RestaurantInfo (
 //
 //        @Column(name = "longitude")
 //        var longitude: Double
-)
+): EntityAuditing(), Serializable
