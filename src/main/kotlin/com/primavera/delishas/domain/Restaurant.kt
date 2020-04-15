@@ -10,7 +10,6 @@ import javax.persistence.*
 class Restaurant(
         @Id
         @GeneratedValue(strategy=GenerationType.IDENTITY)
-        @JsonIgnore
         var id: Long,
 
         @Column(name = "date")
@@ -19,7 +18,7 @@ class Restaurant(
         @OneToMany(mappedBy = "restaurant")
         var menus: MutableList<Menu>,
 
-        @ManyToOne
+        @ManyToOne(fetch=FetchType.LAZY)
         @JoinColumn(name = "restaurant_info_id")
         var restaurantInfo: RestaurantInfo
 

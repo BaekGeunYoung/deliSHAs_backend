@@ -1,11 +1,13 @@
 package com.primavera.delishas.controller
 
-import com.primavera.delishas.domain.Restaurant
 import com.primavera.delishas.dto.RestaurantDto
 import com.primavera.delishas.service.restaurant.RestaurantService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 import java.time.LocalDate
 import java.time.ZoneId
 
@@ -16,7 +18,7 @@ class RestaurantController (
 ){
     // api for getting restaurants by client
     @GetMapping("/")
-    fun getRestaurants(): ResponseEntity<MutableList<Restaurant>>{
+    fun getRestaurants(): ResponseEntity<List<RestaurantDto>>{
         val localDate = LocalDate.now(ZoneId.of("Asia/Seoul"))
         val restaurants = restaurantService.getRestaurants(localDate)
         return ResponseEntity.ok().body(restaurants)

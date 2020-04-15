@@ -22,17 +22,17 @@ data class RestaurantInfo (
         var contact: String,
 
         @Column(name = "breakfast_time")
-        var breakfastTime: String,
+        var breakfastTime: String?,
 
         @Column(name = "lunch_time")
-        var lunchTime: String,
+        var lunchTime: String?,
 
         @Column(name = "dinner_time")
-        var dinnerTime: String
+        var dinnerTime: String?,
 
-//        @Column(name = "latitude")
-//        var latitude: Double,
-//
-//        @Column(name = "longitude")
-//        var longitude: Double
+        @Column(name = "latitude")
+        var latitude: Double,
+
+        @Column(name = "longitude")
+        var longitude: Double
 ): EntityAuditing(), Serializable
