@@ -1,1 +1,0 @@
-user interface layer에 속하는 controller 객체들이 들어 있는 디렉토리
