@@ -19,8 +19,9 @@ class RestaurantController (
     // api for getting restaurants by client
     @GetMapping("/")
     fun getRestaurants(): ResponseEntity<List<RestaurantDto>>{
+        var testLocalDate = LocalDate.of(2020,4,21)
         val localDate = LocalDate.now(ZoneId.of("Asia/Seoul"))
-        val restaurants = restaurantService.getRestaurants(localDate)
+        val restaurants = restaurantService.getRestaurants(testLocalDate)
         return ResponseEntity.ok().body(restaurants)
     }
 
